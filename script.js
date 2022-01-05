@@ -3,14 +3,23 @@ const tic_tac_toe = {
     simbols:['X', 'O'],
 
     container_element: null, 
+    gameover: false,
+
     init: function(container){
         this.container_element = container;
+    },
+    
+    makePlay: function (position){
+        if(this.gameover) return false;
+        if (this.board[position] === '') {
+            this.board[position] = this.simbols
+        };
     },
 
     draw: function(){
         let content = '';
         for (i in this.board) {
-            content += '<div>' + i + '</div>';
+            content += '<div onclick="tic_tac_toe.makePlay('+ i +')">'+this.board[i]+ '</div>';
         };
         this.container_element.innerHTML= content;
     }
