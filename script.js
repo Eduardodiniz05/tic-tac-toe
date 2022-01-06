@@ -10,7 +10,7 @@ const tic_tac_toe = {
     },
 
     container_element: null, 
-    gameover: false,
+    gameOver: false,
     winningSequence: [
         [0,1,2],
         [3,4,5],
@@ -27,23 +27,43 @@ const tic_tac_toe = {
     },
     
     makePlay: function (position){
-        if(this.gameover) return false;
+        if(this.gameOver) return false;
         if (this.board[position] === '') {
             this.board[position] = this.simbols.options[this.simbols.turn_index];
             this.draw()
-
+            let winningSequenceIndex = this.checkWinningSequence(this.simbols.options[this.simbols.turn_index]);
+            if(winningSequenceIndex >= 0) {
+                this.gameIsOver();
+            }else {
             this.simbols.change();
-        };
+            }
+        return true;
+        } else {
+            return false;
+        }
     },
 
-   checkWinninSequence: function(simbol){
-       for (i in winningSequence) {
+    gameIsOver: function() {
+        this.gameOver = true;
+        console.log('Game Over');
+    },
+
+    start: function() {
+        this.board.fill('');
+        this.draw();
+        this.gameOver = false;
+    }, 
+
+   checkWinningSequence: function(simbol){
+       for (i in this.winningSequence) {
         if  (this.board[this.winningSequence[i][0] ] == simbol &&
             this.board[this.winningSequence[i][1] ] == simbol &&
             this.board[this.winningSequence[i][2] ] == simbol) {
                 return i;
-            }
-        }
+                console.log('sequencia vencedora' + i);
+            };
+        };
+        return -1
    },
             
     
@@ -58,4 +78,4 @@ const tic_tac_toe = {
 };
 
 tic_tac_toe.init(document.querySelector('.game'));
-tic_tac_toe.draw();
+tic_tac_toe.start();
